@@ -740,7 +740,8 @@ public class BeanELResolver extends ELResolver {
     }
 
     private void removeFromMap(SoftConcurrentHashMap map, ClassLoader classloader) {
-        Iterator<Class<?>> iter = map.keySet().iterator();
+        ConcurrentHashMap<Class<?>, BPSoftReference> innerMap = map.map;
+        Iterator<Class<?>> iter = innerMap.keySet().iterator();
         while (iter.hasNext()) {
             Class mbeanClass = iter.next();
             if (classloader.equals(mbeanClass.getClassLoader())) {
